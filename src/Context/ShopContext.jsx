@@ -12,7 +12,16 @@ const getDefaultCart = () => {
 
 const ShopContextProvider = (props) => {
     const [all_product, setAll_product] = useState([]);
-    const [cartItems, setCartItems] = useState(getDefaultCart());
+    const [cartItems, setCartItems] = useState(() => {
+        // Load cart data from local storage, if available
+        const savedCart = localStorage.getItem("cartItems");
+        return savedCart ? JSON.parse(savedCart) : getDefaultCart();
+    });
+
+    // Save cart data to local storage whenever it changes
+    useEffect(() => {
+        localStorage.setItem("cartItems", JSON.stringify(cartItems));
+    }, [cartItems]);
 
     useEffect(() => {
         fetch("http://localhost:4000/allproducts")
