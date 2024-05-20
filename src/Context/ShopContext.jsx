@@ -24,7 +24,7 @@ const ShopContextProvider = (props) => {
     }, [cartItems]);
 
     useEffect(() => {
-        fetch("http://localhost:4000/allproducts")
+        fetch("https://mnrx-mern-e-commerce-backend-app-api.onrender.com/allproducts")
             .then((response) => {
                 if (!response.ok) {
                     throw new Error('Network response was not ok ' + response.statusText);
@@ -35,7 +35,7 @@ const ShopContextProvider = (props) => {
             .catch((error) => console.error('Error fetching products:', error));
 
         if (localStorage.getItem("auth-token")) {
-            fetch("http://localhost:4000/getcart", {
+            fetch("https://mnrx-mern-e-commerce-backend-app-api.onrender.com/getcart", {
                 method: "POST",
                 headers: {
                     Accept: "application/json",
@@ -58,7 +58,7 @@ const ShopContextProvider = (props) => {
     const addToCart = (itemId) => {
         setCartItems((prev) => ({ ...prev, [itemId]: prev[itemId] + 1 }));
         if (localStorage.getItem("auth-token")) {
-            fetch("http://localhost:4000/addtocart", {
+            fetch("https://mnrx-mern-e-commerce-backend-app-api.onrender.com/addtocart", {
                 method: "POST",
                 headers: {
                     Accept: "application/json",
@@ -81,7 +81,7 @@ const ShopContextProvider = (props) => {
     const removeFromCart = (itemId) => {
         setCartItems((prev) => ({ ...prev, [itemId]: prev[itemId] - 1 }));
         if (localStorage.getItem("auth-token")) {
-            fetch("http://localhost:4000/removefromcart", {
+            fetch("https://mnrx-mern-e-commerce-backend-app-api.onrender.com/removefromcart", {
                 method: "POST",
                 headers: {
                     Accept: "application/json",
