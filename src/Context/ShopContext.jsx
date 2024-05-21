@@ -29,9 +29,10 @@ const ShopContextProvider = (props) => {
                     throw new Error('Network response was not ok ' + response.statusText);
                 }
                 const data = await response.json();
+                const baseImageUrl = process.env.REACT_APP_BACKEND_URL + '/images/';
                 const modifiedProducts = data.map(product => ({
                     ...product,
-                    image: `${process.env.REACT_APP_BACKEND_URL}/images/${product.image}`
+                    image: product.image.startsWith('http') ? product.image : baseImageUrl + product.image
                 }));
                 setAll_product(modifiedProducts);
             } catch (error) {

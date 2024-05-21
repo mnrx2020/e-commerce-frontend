@@ -12,7 +12,7 @@ const ShopCategory = (props) => {
     const baseImageUrl = process.env.REACT_APP_BACKEND_URL + '/images/';
     const modifiedProducts = all_product.map(product => ({
       ...product,
-      image: baseImageUrl + product.image
+      image: product.image.startsWith('http') ? product.image : baseImageUrl + product.image
     }));
     setProducts(modifiedProducts);
   }, [all_product]);
