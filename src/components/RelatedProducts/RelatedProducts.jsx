@@ -1,6 +1,8 @@
 import React from 'react';
 import "./RelatedProducts.css";
 import Item from '../Item/Item';
+import data_product from "../Assets/data"
+
 
 const RelatedProducts = () => {
   // Assuming `data_product` contains an array of related product objects with `id`, `name`, `image`, `new_price`, and `old_price` properties
