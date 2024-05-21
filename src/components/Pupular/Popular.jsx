@@ -18,9 +18,10 @@ const Popular = () => {
       <hr/>
       <div className='popular-item'>
         {popularProducts.map((item, i) => {
-          const imageUrl = process.env.NODE_ENV === 'production' ?
-            `${process.env.REACT_APP_API_URL_PRODUCTION}/images/${item.image}` :
-            `http://localhost:4000/images/${item.image}`;
+          const baseImageUrl = process.env.NODE_ENV === 'production'
+          ? process.env.REACT_APP_API_URL_PRODUCTION
+          : process.env.REACT_APP_API_URL_LOCAL;
+        const imageUrl = `${baseImageUrl}/${item.image}`;
           return (
             <Item 
               key={i} 
