@@ -34,7 +34,7 @@ const ProductDisplay = ({ product }) => {
                 </div>
                 <div className='productdisplay-img'>
                     {product.image && (
-                        <img className='productdisplay-main-img' src={product.image} alt="" />
+                        <img className='productdisplay-main-img' src={`/images/${product.image}`} alt="" />
                     )}
                 </div>
             </div>
