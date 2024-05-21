@@ -22,8 +22,6 @@ const ShopContextProvider = (props) => {
     }, [cartItems]);
 
     useEffect(() => {
-        const baseImageUrl = process.env.REACT_APP_BACKEND_URL + '/images/';
-
         const fetchProducts = async () => {
             try {
                 const response = await fetch("https://mnrx-mern-e-commerce-backend-app-api.onrender.com/allproducts");
@@ -33,7 +31,7 @@ const ShopContextProvider = (props) => {
                 const data = await response.json();
                 const modifiedProducts = data.map(product => ({
                     ...product,
-                    image: baseImageUrl + product.image
+                    image: `${process.env.REACT_APP_BACKEND_URL}/images/${product.image}`
                 }));
                 setAll_product(modifiedProducts);
             } catch (error) {
