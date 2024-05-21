@@ -7,14 +7,16 @@ const RelatedProducts = () => {
   return (
     <div className='relatedproducts'>
       <h1>Related Products</h1>
-      <hr />
+      <hr/>
       <div className='relatedproducts-item'>
         {data_product.map((item, i) => {
-          // Construct the image URL similarly
+          // Check if the image URL is already a full URL or just a filename
           const isFullUrl = item.image.startsWith("http://") || item.image.startsWith("https://");
           const baseImageUrl = isFullUrl ? "" : "https://mnrx-mern-e-commerce-backend-app-api.onrender.com/images/";
           const imageUrl = `${baseImageUrl}${item.image}`;
-          
+
+          console.log(`Rendering product: ${item.name}, Image URL: ${imageUrl}`);
+
           return (
             <Item 
               key={i} 
