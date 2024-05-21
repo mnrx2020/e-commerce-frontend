@@ -3,8 +3,10 @@ import "./Item.css";
 import { Link } from 'react-router-dom';
 
 const Item = ({ id, name, image, new_price, old_price }) => {
-  // Use the environment variable to determine the base URL
-  const baseImageUrl = process.env.REACT_APP_API_URL || 'http://localhost:4000';
+  // Determine the correct base URL based on the environment
+  const baseImageUrl = process.env.NODE_ENV === 'production'
+    ? process.env.REACT_APP_API_URL_PRODUCTION
+    : process.env.REACT_APP_API_URL_LOCAL;
   
   // Construct the full image URL
   const imageUrl = `${baseImageUrl}/${image}`;
