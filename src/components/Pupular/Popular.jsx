@@ -17,13 +17,13 @@ const Popular = () => {
       <hr/>
       <div className='popular-item'>
         {popularProducts.map((item, i) => {
-          const imageUrl = `https://mnrx-mern-e-commerce-backend-app-api.onrender.com/images/${item.image}`;
+          //const imageUrl = `https://mnrx-mern-e-commerce-backend-app-api.onrender.com/images/${item.image}`;
           return (
             <Item 
               key={i} 
               id={item.id} 
               name={item.name} 
-              image={imageUrl} 
+              image={item.image} 
               new_price={item.new_price} 
               old_price={item.old_price} 
             />
