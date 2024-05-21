@@ -14,12 +14,10 @@ const NewCollections = () => {
   return (
     <div className='new-collections'>
       <h1>NEW COLLECTIONS</h1>
-      <hr />
+      <hr/>
       <div className='collections'>
         {newCollection.map((item, i) => {
-          const imageUrl = process.env.NODE_ENV === 'production'
-            ? `https://mnrx-mern-e-commerce-backend-app-api.onrender.com/images/${item.image}`
-            : `/images/${item.image}`;
+          const imageUrl = `https://mnrx-mern-e-commerce-backend-app-api.onrender.com/images/${item.image}`;
           return <Item key={i} id={item.id} name={item.name} image={imageUrl} new_price={item.new_price} old_price={item.old_price} />
         })}
       </div>
