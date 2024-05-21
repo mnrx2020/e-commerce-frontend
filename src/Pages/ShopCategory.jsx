@@ -1,11 +1,12 @@
-import React, { useContext } from 'react'
-import "./CSS/ShopCategory.css"
-import { ShopContext } from '../Context/ShopContext'
-import dropdown_icon from "../components/Assets/dropdown_icon.png"
-import Item from '../components/Item/Item'
+import React, { useContext } from 'react';
+import "./CSS/ShopCategory.css";
+import { ShopContext } from '../Context/ShopContext';
+import dropdown_icon from "../components/Assets/dropdown_icon.png";
+import Item from '../components/Item/Item';
 
 const ShopCategory = (props) => {
-  const {all_product} = useContext(ShopContext)
+  const { all_product } = useContext(ShopContext);
+  
   return (
     <div className='shop-category'>
       <img className='shopcategory-banner' src={props.banner} alt='' />
@@ -18,13 +19,15 @@ const ShopCategory = (props) => {
         </div>
       </div>
       <div className='shopcategory-products'>
-        {all_product.map((item,i)=>{
-          if(props.category===item.category){
-            const imageUrl = `https://mnrx-mern-e-commerce-backend-app-api.onrender.com/images/${item.image}`;
-            return <Item key={i} id={item.id} name={item.name} image={imageUrl} new_price={item.new_price} old_price={item.old_price}/>
-          }
-          else{
-            return null
+        {all_product.map((item, i) => {
+          if (props.category === item.category) {
+            // Construct the image URL
+            const imageUrl = process.env.NODE_ENV === 'production'
+              ? `https://mnrx-mern-e-commerce-backend-app-api.onrender.com/images/${item.image}`
+              : `/images/${item.image}`;
+            return <Item key={i} id={item.id} name={item.name} image={imageUrl} new_price={item.new_price} old_price={item.old_price} />
+          } else {
+            return null;
           }
         })}
       </div>
@@ -32,7 +35,7 @@ const ShopCategory = (props) => {
         Explore More
       </div>
     </div>
-  )
+  );
 }
 
-export default ShopCategory
+export default ShopCategory;
