@@ -22,6 +22,8 @@ const ShopContextProvider = (props) => {
     }, [cartItems]);
 
     useEffect(() => {
+        const baseImageUrl = process.env.REACT_APP_BACKEND_URL + '/images/';
+        
         const fetchProducts = async () => {
             try {
                 const response = await fetch("https://mnrx-mern-e-commerce-backend-app-api.onrender.com/allproducts");
@@ -29,7 +31,6 @@ const ShopContextProvider = (props) => {
                     throw new Error('Network response was not ok ' + response.statusText);
                 }
                 const data = await response.json();
-                const baseImageUrl = process.env.REACT_APP_BACKEND_URL + '/images/';
                 const modifiedProducts = data.map(product => ({
                     ...product,
                     image: product.image.startsWith('http') ? product.image : baseImageUrl + product.image

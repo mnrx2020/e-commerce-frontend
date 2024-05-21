@@ -9,12 +9,8 @@ const ShopCategory = (props) => {
   const [products, setProducts] = useState([]);
 
   useEffect(() => {
-    const baseImageUrl = process.env.REACT_APP_BACKEND_URL + '/images/';
-    const modifiedProducts = all_product.map(product => ({
-      ...product,
-      image: product.image.startsWith('http') ? product.image : baseImageUrl + product.image
-    }));
-    setProducts(modifiedProducts);
+    // Assuming images are already processed in context
+    setProducts(all_product);
   }, [all_product]);
 
   return (
