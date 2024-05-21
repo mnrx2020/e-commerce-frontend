@@ -3,8 +3,10 @@ import "./Item.css";
 import { Link } from 'react-router-dom';
 
 const Item = ({ id, name, image, new_price, old_price }) => {
-  // Define the base URL for images
-  const baseImageUrl = "https://mnrx-mern-e-commerce-backend-app-api.onrender.com/images/";
+  // Check if the image URL is already a full URL or just a filename
+  const isFullUrl = image.startsWith("http://") || image.startsWith("https://");
+  const baseImageUrl = isFullUrl ? "" : "https://mnrx-mern-e-commerce-backend-app-api.onrender.com/images/";
+  
   // Construct the full image URL
   const imageUrl = `${baseImageUrl}${image}`;
 
