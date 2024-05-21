@@ -2,15 +2,17 @@ import React, { createContext, useEffect, useState } from "react";
 
 export const ShopContext = createContext(null);
 
-const getDefaultCart = () => {
-    let cart = {};
-    for (let index = 0; index <= 300; index++) {
-        cart[index] = 0;
-    }
-    return cart;
-}
 
 const ShopContextProvider = (props) => {
+
+    const getDefaultCart = () => {
+        let cart = {};
+        for (let index = 0; index <= 300; index++) {
+            cart[index] = 0;
+        }
+        return cart;
+    }
+
     const [all_product, setAll_product] = useState([]);
     const [cartItems, setCartItems] = useState(() => {
         // Load cart data from local storage, if available
