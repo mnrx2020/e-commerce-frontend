@@ -6,7 +6,7 @@ const NewCollections = () => {
   const [newCollection, setNewCollection] = useState([]);
 
   useEffect(() => {
-    fetch("https://mnrx-mern-e-commerce-backend-app-api.onrender.com/newcollections")
+    fetch(`${process.env.NODE_ENV === 'production' ? process.env.REACT_APP_API_URL_PRODUCTION : process.env.REACT_APP_API_URL_LOCAL}/newcollections`)
       .then((response) => response.json())
       .then((data) => setNewCollection(data));
   }, []);
@@ -17,8 +17,13 @@ const NewCollections = () => {
       <hr/>
       <div className='collections'>
         {newCollection.map((item, i) => {
-          const imageUrl = `https://mnrx-mern-e-commerce-backend-app-api.onrender.com/images/${item.image}`;
-          return <Item key={i} id={item.id} name={item.name} image={imageUrl} new_price={item.new_price} old_price={item.old_price} />
+          // Construct the full image URL based on the environment
+          const baseImageUrl = process.env.NODE_ENV === 'production'
+            ? process.env.REACT_APP_API_URL_PRODUCTION
+            : process.env.REACT_APP_API_URL_LOCAL;
+          const imageUrl = `${baseImageUrl}/${item.image}`;
+
+          return <Item key={i} id={item.id} name={item.name} image={imageUrl} new_price={item.new_price} old_price={item.old_price} />;
         })}
       </div>
     </div>

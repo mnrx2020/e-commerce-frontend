@@ -1,38 +1,33 @@
-import React, { useContext } from 'react'
-import "./CSS/ShopCategory.css"
-import { ShopContext } from '../Context/ShopContext'
-import dropdown_icon from "../components/Assets/dropdown_icon.png"
-import Item from '../components/Item/Item'
+import React, { useEffect, useState } from 'react';
+import "./NewCollections.css";
+import Item from "../Item/Item";
 
-const ShopCategory = (props) => {
-  const {all_product} = useContext(ShopContext)
+const NewCollections = () => {
+  const [newCollection, setNewCollection] = useState([]);
+
+  useEffect(() => {
+    fetch(`${process.env.NODE_ENV === 'production' ? process.env.REACT_APP_API_URL_PRODUCTION : process.env.REACT_APP_API_URL_LOCAL}/newcollections`)
+      .then((response) => response.json())
+      .then((data) => setNewCollection(data));
+  }, []);
+
   return (
-    <div className='shop-category'>
-      <img className='shopcategory-banner' src={props.banner} alt='' />
-      <div className='shopcategory-indexSort'>
-        <p>
-          <span>Showing 1-12</span> out of 36 products
-        </p>
-        <div className='shopcategory-sort'>
-          Sort by <img src={dropdown_icon} alt='' />
-        </div>
-      </div>
-      <div className='shopcategory-products'>
-        {all_product.map((item,i)=>{
-          if(props.category===item.category){
-            const imageUrl = `https://mnrx-mern-e-commerce-backend-app-api.onrender.com/images/${item.image}`;
-            return <Item key={i} id={item.id} name={item.name} image={imageUrl} new_price={item.new_price} old_price={item.old_price}/>
-          }
-          else{
-            return null
-          }
+    <div className='new-collections'>
+      <h1>NEW COLLECTIONS</h1>
+      <hr/>
+      <div className='collections'>
+        {newCollection.map((item, i) => {
+          // Construct the full image URL based on the environment
+          const baseImageUrl = process.env.NODE_ENV === 'production'
+            ? process.env.REACT_APP_API_URL_PRODUCTION
+            : process.env.REACT_APP_API_URL_LOCAL;
+          const imageUrl = `${baseImageUrl}/${item.image}`;
+
+          return <Item key={i} id={item.id} name={item.name} image={imageUrl} new_price={item.new_price} old_price={item.old_price} />;
         })}
       </div>
-      <div className='shopcategory-loadmore'>
-        Explore More
-      </div>
     </div>
-  )
+  );
 }
 
-export default ShopCategory
+export default NewCollections;

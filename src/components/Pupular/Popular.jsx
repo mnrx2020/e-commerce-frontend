@@ -6,7 +6,8 @@ const Popular = () => {
   const [popularProducts, setPopularProducts] = useState([]);
 
   useEffect(() => {
-    fetch("https://mnrx-mern-e-commerce-backend-app-api.onrender.com/popularinwomen")
+    const apiUrl = process.env.NODE_ENV === 'production' ? process.env.REACT_APP_API_URL_PRODUCTION : process.env.REACT_APP_API_URL_LOCAL;
+    fetch(`${apiUrl}/popularinwomen`)
       .then((response) => response.json())
       .then((data) => setPopularProducts(data));
   }, []);
@@ -17,7 +18,9 @@ const Popular = () => {
       <hr/>
       <div className='popular-item'>
         {popularProducts.map((item, i) => {
-          const imageUrl = `https://mnrx-mern-e-commerce-backend-app-api.onrender.com/images/${item.image}`;
+          const imageUrl = process.env.NODE_ENV === 'production' ?
+            `${process.env.REACT_APP_API_URL_PRODUCTION}/images/${item.image}` :
+            `http://localhost:4000/images/${item.image}`;
           return (
             <Item 
               key={i} 
