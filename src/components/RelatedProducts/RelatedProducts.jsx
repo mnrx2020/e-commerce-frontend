@@ -17,7 +17,7 @@ const RelatedProducts = () => {
         })}
       </div>
     </div>
-  );
+  )
 }
 
 export default RelatedProducts;

@@ -3,10 +3,9 @@ import "./Item.css";
 import { Link } from 'react-router-dom';
 
 const Item = ({ id, name, image, new_price, old_price }) => {
-  const baseImageUrl = process.env.NODE_ENV === 'production' 
+  const baseImageUrl = process.env.NODE_ENV === 'production'
     ? "https://mnrx-mern-e-commerce-backend-app-api.onrender.com/images/"
     : "/images/";
-  
   const imageUrl = `${baseImageUrl}${image}`;
 
   return (
