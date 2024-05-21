@@ -3,9 +3,11 @@ import "./Item.css";
 import { Link } from 'react-router-dom';
 
 const Item = ({ id, name, image, new_price, old_price }) => {
-  // Check if the image is a full URL or an imported image
-  const isFullUrl = typeof image === 'string' && (image.startsWith("http://") || image.startsWith("https://"));
-  const imageUrl = isFullUrl ? image : image.default || image; // For imported images, `image` would be an object
+  const baseUrl = process.env.NODE_ENV === 'production'
+    ? 'https://mnrx-mern-e-commerce-backend-app-api.onrender.com/images/'
+    : 'http://localhost:4000/images/';
+  
+  const imageUrl = baseUrl + image;
 
   return (
     <div className='item'>
