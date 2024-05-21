@@ -6,20 +6,35 @@ const NewCollections = () => {
   const [newCollection, setNewCollection] = useState([]);
 
   useEffect(() => {
-    fetch("https://mnrx-mern-e-commerce-backend-app-api.onrender.com/newcollections")
-      .then((response) => response.json())
-      .then((data) => setNewCollection(data));
+    const fetchNewCollections = async () => {
+      const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/newcollections`);
+      const data = await response.json();
+      const baseImageUrl = process.env.REACT_APP_BACKEND_URL + '/images/';
+      const modifiedProducts = data.map(product => ({
+        ...product,
+        image: baseImageUrl + product.image
+      }));
+      setNewCollection(modifiedProducts);
+    };
+
+    fetchNewCollections();
   }, []);
 
   return (
     <div className='new-collections'>
       <h1>NEW COLLECTIONS</h1>
-      <hr/>
+      <hr />
       <div className='collections'>
-        {newCollection.map((item, i) => {
-          //const imageUrl = `https://mnrx-mern-e-commerce-backend-app-api.onrender.com/images/${item.image}`;
-          return <Item key={i} id={item.id} name={item.name} image={item.image} new_price={item.new_price} old_price={item.old_price} />
-        })}
+        {newCollection.map((item, i) => (
+          <Item
+            key={i}
+            id={item.id}
+            name={item.name}
+            image={item.image}
+            new_price={item.new_price}
+            old_price={item.old_price}
+          />
+        ))}
       </div>
     </div>
   );
