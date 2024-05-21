@@ -20,7 +20,8 @@ const ShopCategory = (props) => {
       <div className='shopcategory-products'>
         {all_product.map((item,i)=>{
           if(props.category===item.category){
-            return <Item key={i} id={item.id} name={item.name} image={item.image} new_price={item.new_price} old_price={item.old_price}/>
+            const imageUrl = `https://mnrx-mern-e-commerce-backend-app-api.onrender.com/images/${item.image}`;
+            return <Item key={i} id={item.id} name={item.name} image={imageUrl} new_price={item.new_price} old_price={item.old_price}/>
           }
           else{
             return null
