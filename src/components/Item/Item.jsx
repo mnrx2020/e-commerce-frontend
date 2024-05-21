@@ -3,10 +3,11 @@ import "./Item.css";
 import { Link } from 'react-router-dom';
 
 const Item = ({ id, name, image, new_price, old_price }) => {
-  // Define the base URL for images
-  const baseImageUrl = "https://mnrx-mern-e-commerce-backend-app-api.onrender.com/images/";
+  // Use the environment variable to determine the base URL
+  const baseImageUrl = process.env.REACT_APP_API_URL || 'http://localhost:4000';
+  
   // Construct the full image URL
-  const imageUrl = `${baseImageUrl}${image}`;
+  const imageUrl = `${baseImageUrl}/${image}`;
 
   return (
     <div className='item'>
