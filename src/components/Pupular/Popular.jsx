@@ -6,9 +6,18 @@ const Popular = () => {
   const [popularProducts, setPopularProducts] = useState([]);
 
   useEffect(() => {
-    fetch("https://mnrx-mern-e-commerce-backend-app-api.onrender.com/popularinwomen")
-      .then((response) => response.json())
-      .then((data) => setPopularProducts(data));
+    const fetchPopularProducts = async () => {
+      const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/popularinwomen`);
+      const data = await response.json();
+      const baseImageUrl = process.env.REACT_APP_BACKEND_URL + '/images/';
+      const modifiedProducts = data.map(product => ({
+        ...product,
+        image: baseImageUrl + product.image
+      }));
+      setPopularProducts(modifiedProducts);
+    };
+
+    fetchPopularProducts();
   }, []);
 
   return (
@@ -16,18 +25,16 @@ const Popular = () => {
       <h1>POPULAR IN WOMEN</h1>
       <hr/>
       <div className='popular-item'>
-        {popularProducts.map((item, i) => {
-          return (
-            <Item 
-              key={i} 
-              id={item.id} 
-              name={item.name} 
-              image={item.image} 
-              new_price={item.new_price} 
-              old_price={item.old_price} 
-            />
-          );
-        })}
+        {popularProducts.map((item, i) => (
+          <Item 
+            key={i} 
+            id={item.id} 
+            name={item.name} 
+            image={item.image} 
+            new_price={item.new_price} 
+            old_price={item.old_price} 
+          />
+        ))}
       </div>
     </div>
   );

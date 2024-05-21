@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import "./CSS/ShopCategory.css";
 import { ShopContext } from '../Context/ShopContext';
 import dropdown_icon from "../components/Assets/dropdown_icon.png";
@@ -6,6 +6,17 @@ import Item from '../components/Item/Item';
 
 const ShopCategory = (props) => {
   const { all_product } = useContext(ShopContext);
+  const [products, setProducts] = useState([]);
+
+  useEffect(() => {
+    const baseImageUrl = process.env.REACT_APP_BACKEND_URL + '/images/';
+    const modifiedProducts = all_product.map(product => ({
+      ...product,
+      image: baseImageUrl + product.image
+    }));
+    setProducts(modifiedProducts);
+  }, [all_product]);
+
   return (
     <div className='shop-category'>
       <img className='shopcategory-banner' src={props.banner} alt='' />
@@ -18,18 +29,9 @@ const ShopCategory = (props) => {
         </div>
       </div>
       <div className='shopcategory-products'>
-        {all_product.map((item, i) => {
+        {products.map((item, i) => {
           if (props.category === item.category) {
-            return (
-              <Item 
-                key={i} 
-                id={item.id} 
-                name={item.name} 
-                image={item.image} 
-                new_price={item.new_price} 
-                old_price={item.old_price} 
-              />
-            );
+            return <Item key={i} id={item.id} name={item.name} image={item.image} new_price={item.new_price} old_price={item.old_price} />
           } else {
             return null;
           }
@@ -39,7 +41,7 @@ const ShopCategory = (props) => {
         Explore More
       </div>
     </div>
-  );
+  )
 }
 
 export default ShopCategory;
