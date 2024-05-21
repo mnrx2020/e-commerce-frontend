@@ -17,7 +17,6 @@ const Popular = () => {
       <hr/>
       <div className='popular-item'>
         {popularProducts.map((item, i) => {
-          //const imageUrl = `https://mnrx-mern-e-commerce-backend-app-api.onrender.com/images/${item.image}`;
           return (
             <Item 
               key={i} 
