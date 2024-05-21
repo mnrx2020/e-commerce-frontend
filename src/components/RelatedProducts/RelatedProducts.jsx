@@ -11,7 +11,7 @@ const RelatedProducts = () => {
       <hr/>
       <div className='relatedproducts-item'>
         {data_product.map((item,i)=>{
-          const imageUrl = `${process.env.REACT_APP_API_URL_PRODUCTION}/images/${item.image}`;
+          const imageUrl = `https://mnrx-mern-e-commerce-backend-app-api.onrender.com/images/${item.image}`;
             return <Item key={i} id={item.id} name={item.name} image={imageUrl} new_price={item.new_price} old_price={item.old_price} />
         })}
       </div>
