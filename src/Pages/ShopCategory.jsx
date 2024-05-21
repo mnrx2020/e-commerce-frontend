@@ -1,149 +1,38 @@
-import React, { createContext, useEffect, useState } from "react";
+import React, { useContext } from 'react'
+import "./CSS/ShopCategory.css"
+import { ShopContext } from '../Context/ShopContext'
+import dropdown_icon from "../components/Assets/dropdown_icon.png"
+import Item from '../components/Item/Item'
 
-
-export const ShopContext = createContext(null);
-
-
-const getDefaultCart = () => {
-    let cart = {};
-    for (let index = 0; index <= 300; index++) {
-        cart[index] = 0;
-    }
-    return cart;
+const ShopCategory = (props) => {
+  const {all_product} = useContext(ShopContext)
+  return (
+    <div className='shop-category'>
+      <img className='shopcategory-banner' src={props.banner} alt='' />
+      <div className='shopcategory-indexSort'>
+        <p>
+          <span>Showing 1-12</span> out of 36 products
+        </p>
+        <div className='shopcategory-sort'>
+          Sort by <img src={dropdown_icon} alt='' />
+        </div>
+      </div>
+      <div className='shopcategory-products'>
+        {all_product.map((item,i)=>{
+          if(props.category===item.category){
+            const imageUrl = `https://mnrx-mern-e-commerce-backend-app-api.onrender.com/images/${item.image}`;
+            return <Item key={i} id={item.id} name={item.name} image={imageUrl} new_price={item.new_price} old_price={item.old_price}/>
+          }
+          else{
+            return null
+          }
+        })}
+      </div>
+      <div className='shopcategory-loadmore'>
+        Explore More
+      </div>
+    </div>
+  )
 }
 
-
-const ShopContextProvider = (props) => {
-    const [all_product, setAll_product] = useState([]);
-    const [cartItems, setCartItems] = useState(() => {
-        // Load cart data from local storage, if available
-        const savedCart = localStorage.getItem("cartItems");
-        return savedCart ? JSON.parse(savedCart) : getDefaultCart();
-    });
-
-
-    // Save cart data to local storage whenever it changes
-    useEffect(() => {
-        localStorage.setItem("cartItems", JSON.stringify(cartItems));
-    }, [cartItems]);
-
-
-    useEffect(() => {
-        fetch("https://mnrx-mern-e-commerce-backend-app-api.onrender.com/allproducts")
-            .then((response) => {
-                if (!response.ok) {
-                    throw new Error('Network response was not ok ' + response.statusText);
-                }
-                return response.json();
-            })
-            .then((data) => setAll_product(data))
-            .catch((error) => console.error('Error fetching products:', error));
-
-
-        if (localStorage.getItem("auth-token")) {
-            fetch("https://mnrx-mern-e-commerce-backend-app-api.onrender.com/getcart", {
-                method: "POST",
-                headers: {
-                    Accept: "application/json",
-                    "auth-token": `${localStorage.getItem("auth-token")}`,
-                    "Content-Type": "application/json"
-                },
-                body: JSON.stringify({})
-            })
-                .then((response) => {
-                    if (!response.ok) {
-                        throw new Error('Network response was not ok ' + response.statusText);
-                    }
-                    return response.json();
-                })
-                .then((data) => setCartItems(data))
-                .catch((error) => console.error('Error fetching cart items:', error));
-        }
-    }, []);
-
-
-    const addToCart = (itemId) => {
-        setCartItems((prev) => ({ ...prev, [itemId]: prev[itemId] + 1 }));
-        if (localStorage.getItem("auth-token")) {
-            fetch("https://mnrx-mern-e-commerce-backend-app-api.onrender.com/addtocart", {
-                method: "POST",
-                headers: {
-                    Accept: "application/json",
-                    "auth-token": `${localStorage.getItem("auth-token")}`,
-                    "Content-Type": "application/json"
-                },
-                body: JSON.stringify({ "itemId": itemId })
-            })
-                .then((response) => {
-                    if (!response.ok) {
-                        throw new Error('Network response was not ok ' + response.statusText);
-                    }
-                    return response.json();
-                })
-                .then((data) => console.log(data))
-                .catch((error) => console.error('Error adding to cart:', error));
-        }
-    }
-
-
-    const removeFromCart = (itemId) => {
-        setCartItems((prev) => ({ ...prev, [itemId]: prev[itemId] - 1 }));
-        if (localStorage.getItem("auth-token")) {
-            fetch("https://mnrx-mern-e-commerce-backend-app-api.onrender.com/removefromcart", {
-                method: "POST",
-                headers: {
-                    Accept: "application/json",
-                    "auth-token": `${localStorage.getItem("auth-token")}`,
-                    "Content-Type": "application/json"
-                },
-                body: JSON.stringify({ "itemId": itemId })
-            })
-                .then((response) => {
-                    if (!response.ok) {
-                        throw new Error('Network response was not ok ' + response.statusText);
-                    }
-                    return response.json();
-                })
-                .then((data) => console.log(data))
-                .catch((error) => console.error('Error removing from cart:', error));
-        }
-    }
-
-
-    const getTotalCartAmount = () => {
-        let totalAmount = 0;
-        for (const item in cartItems) {
-            if (cartItems[item] > 0) {
-                let itemInfo = all_product.find((product) => product.id === Number(item));
-                totalAmount += itemInfo.new_price * cartItems[item];
-            }
-        }
-        return totalAmount;
-    }
-
-
-    const getTotalCartItems = () => {
-        let totalItem = 0;
-        for (const item in cartItems) {
-            if (cartItems[item] > 0) {
-                totalItem += cartItems[item];
-            }
-        }
-        return totalItem;
-    }
-
-
-    const contextValue = { getTotalCartItems, getTotalCartAmount, all_product, cartItems, addToCart, removeFromCart };
-
-
-    return (
-        <ShopContext.Provider value={contextValue}>
-            {props.children}
-        </ShopContext.Provider>
-    );
-}
-
-
-export default ShopContextProvider;
-
-
+export default ShopCategory
