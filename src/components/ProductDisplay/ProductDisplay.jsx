@@ -8,16 +8,13 @@ import { ShopContext } from '../../Context/ShopContext';
 const ProductDisplay = ({ product }) => {
     const { addToCart } = useContext(ShopContext);
 
-
-    // Check if product is defined
     if (!product) {
-        return null; // or render a placeholder or loading state
+        return null;
     }
 
+    console.log('Product Image URL:', product.image);  // Debugging line
 
-    // Set a default value for product rating if not provided
     const rating = product.rating || 0;
-
 
     return (
         <div className='productdisplay'>
@@ -41,11 +38,9 @@ const ProductDisplay = ({ product }) => {
             <div className='productdisplay-right'>
                 <h1>{product.name}</h1>
                 <div className='productdisplay-right-stars'>
-                    {/* Render star icons based on product.rating */}
                     {[...Array(rating)].map((_, index) => (
                         <img key={index} src={star_icon} alt="" />
                     ))}
-                    {/* Render dull stars for remaining */}
                     {[...Array(5 - rating)].map((_, index) => (
                         <img key={index + rating} src={star_dull_icon} alt="" />
                     ))}
@@ -75,6 +70,5 @@ const ProductDisplay = ({ product }) => {
         </div>
     );
 }
-
 
 export default ProductDisplay;
