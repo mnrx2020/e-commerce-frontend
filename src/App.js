@@ -6,7 +6,7 @@ import Shop from './Pages/Shop';
 import ShopCategory from './Pages/ShopCategory';
 import Footer from './components/Footer/Footer';
 import Navbar from './components/Navbar/Navbar';
-//import ProductDisplay from './components/ProductDisplay/ProductDisplay';
+import ProductDisplay from './components/ProductDisplay/ProductDisplay';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import men_banner from "./components/Assets/banner_mens.png";
 import women_banner from "./components/Assets/banner_women.png";
@@ -22,7 +22,7 @@ function App() {
           <Route path='/mens' element={<ShopCategory banner={men_banner} category="men" />} />
           <Route path='/womens' element={<ShopCategory banner={women_banner} category="women" />} />
           <Route path='/kids' element={<ShopCategory banner={kid_banner} category="kid" />} />
-          {/*<Route path='/product/:productId' element={<ProductDisplay />} />*/}
+          <Route path='/product/:productId' element={<ProductDisplay />} />
           <Route path=':productId' element={<Product/>}/>
           <Route path='/cart' element={<Cart />} />
           <Route path='/login' element={<LoginSignup />} />
