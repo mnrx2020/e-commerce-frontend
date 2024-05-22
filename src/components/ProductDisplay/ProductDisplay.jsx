@@ -1,18 +1,27 @@
-import React, { useContext } from 'react';
+import React, { useEffect, useState, useContext } from 'react';
+import { useParams } from 'react-router-dom';
 import "./ProductDisplay.css";
 import star_icon from "../Assets/star_icon.png";
 import star_dull_icon from "../Assets/star_dull_icon.png";
 import { ShopContext } from '../../Context/ShopContext';
 
-
-const ProductDisplay = ({ product }) => {
+const ProductDisplay = () => {
     const { addToCart } = useContext(ShopContext);
+    const { productId } = useParams();
+    const [product, setProduct] = useState(null);
+
+    useEffect(() => {
+        const fetchProduct = async () => {
+            const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/product/${productId}`);
+            const data = await response.json();
+            setProduct(data);
+        };
+        fetchProduct();
+    }, [productId]);
 
     if (!product) {
-        return null;
+        return <div>Loading...</div>;
     }
-
-    console.log('Product Image URL:', product.image);  // Debugging line
 
     const rating = product.rating || 0;
 
@@ -22,16 +31,16 @@ const ProductDisplay = ({ product }) => {
                 <div className='productdisplay-img-list'>
                     {product.image && (
                         <>
-                            <img src={product.image} alt="" />
-                            <img src={product.image} alt="" />
-                            <img src={product.image} alt="" />
-                            <img src={product.image} alt="" />
+                            <img src={product.image} alt={product.name} />
+                            <img src={product.image} alt={product.name} />
+                            <img src={product.image} alt={product.name} />
+                            <img src={product.image} alt={product.name} />
                         </>
                     )}
                 </div>
                 <div className='productdisplay-img'>
                     {product.image && (
-                        <img className='productdisplay-main-img' src={product.image} alt="" />
+                        <img className='productdisplay-main-img' src={product.image} alt={product.name} />
                     )}
                 </div>
             </div>
@@ -39,10 +48,10 @@ const ProductDisplay = ({ product }) => {
                 <h1>{product.name}</h1>
                 <div className='productdisplay-right-stars'>
                     {[...Array(rating)].map((_, index) => (
-                        <img key={index} src={star_icon} alt="" />
+                        <img key={index} src={star_icon} alt="Star" />
                     ))}
                     {[...Array(5 - rating)].map((_, index) => (
-                        <img key={index + rating} src={star_dull_icon} alt="" />
+                        <img key={index + rating} src={star_dull_icon} alt="Dull Star" />
                     ))}
                     <p>({product.rating_count || 0})</p>
                 </div>
@@ -60,7 +69,7 @@ const ProductDisplay = ({ product }) => {
                         <div>M</div>
                         <div>L</div>
                         <div>XL</div>
-                        <div>XXl</div>
+                        <div>XXL</div>
                     </div>
                 </div>
                 <button onClick={() => { addToCart(product.id) }}>ADD TO CART</button>
