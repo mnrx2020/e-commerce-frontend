@@ -13,7 +13,7 @@ const ProductDisplay = () => {
     useEffect(() => {
         const fetchProduct = async () => {
             try {
-                const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/product/${productId}`);
+                const response = await fetch(`https://mnrx-mern-e-commerce-backend-app-api.onrender.com/product/${productId}`);
                 if (!response.ok) {
                     throw new Error("Network response was not ok");
                 }
@@ -38,16 +38,16 @@ const ProductDisplay = () => {
                 <div className='productdisplay-img-list'>
                     {product.image && (
                         <>
-                            <img src={`${process.env.REACT_APP_BACKEND_URL}/images/${product.image}`} alt={product.name} />
-                            <img src={`${process.env.REACT_APP_BACKEND_URL}/images/${product.image}`} alt={product.name} />
-                            <img src={`${process.env.REACT_APP_BACKEND_URL}/images/${product.image}`} alt={product.name} />
-                            <img src={`${process.env.REACT_APP_BACKEND_URL}/images/${product.image}`} alt={product.name} />
+                            <img src={product.image} alt={product.name} />
+                            <img src={product.image} alt={product.name} />
+                            <img src={product.image} alt={product.name} />
+                            <img src={product.image} alt={product.name} />
                         </>
                     )}
                 </div>
                 <div className='productdisplay-img'>
                     {product.image && (
-                        <img className='productdisplay-main-img' src={`${process.env.REACT_APP_BACKEND_URL}/images/${product.image}`} alt={product.name} />
+                        <img className='productdisplay-main-img' src={product.image} alt={product.name} />
                     )}
                 </div>
             </div>
