@@ -13,10 +13,17 @@ const Product = () => {
 
   useEffect(() => {
     const fetchProduct = async () => {
+      console.log("Fetching product with ID:", productId);
       let foundProduct = all_product.find((e) => e.id === Number(productId));
+      console.log("Found product in context:", foundProduct);
       if (!foundProduct) {
-        const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/product/${productId}`);
-        foundProduct = await response.json();
+        try {
+          const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/product/${productId}`);
+          foundProduct = await response.json();
+          console.log("Fetched product from backend:", foundProduct);
+        } catch (error) {
+          console.error("Error fetching product from backend:", error);
+        }
       }
       setProduct(foundProduct);
     };
