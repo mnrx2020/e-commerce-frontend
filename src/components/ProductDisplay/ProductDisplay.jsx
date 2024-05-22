@@ -12,9 +12,16 @@ const ProductDisplay = () => {
 
     useEffect(() => {
         const fetchProduct = async () => {
-            const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/product/${productId}`);
-            const data = await response.json();
-            setProduct(data);
+            try {
+                const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/product/${productId}`);
+                if (!response.ok) {
+                    throw new Error("Network response was not ok");
+                }
+                const data = await response.json();
+                setProduct(data);
+            } catch (error) {
+                console.error("Error fetching product:", error);
+            }
         };
         fetchProduct();
     }, [productId]);
