@@ -13,12 +13,17 @@ const ProductDisplay = () => {
     useEffect(() => {
         const fetchProduct = async () => {
             try {
-                const response = await fetch(`https://mnrx-mern-e-commerce-backend-app-api.onrender.com/product/${productId}`);
+                const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/product/${productId}`);
                 if (!response.ok) {
                     throw new Error("Network response was not ok");
                 }
                 const data = await response.json();
-                setProduct(data);
+                const baseImageUrl = `${process.env.REACT_APP_BACKEND_URL}/images/`;
+                const modifiedProduct = {
+                    ...data,
+                    image: baseImageUrl + data.image
+                };
+                setProduct(modifiedProduct);
             } catch (error) {
                 console.error("Error fetching product:", error);
             }
