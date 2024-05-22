@@ -24,10 +24,14 @@ const Product = () => {
     fetchProduct();
   }, [productId, all_product]);
 
+  if (!product) {
+    return <div>Loading...</div>; // Display loading state while fetching the product
+  }
+
   return (
     <div>
-      {product && <Breadcrum product={product} />}
-      {product && <ProductDisplay product={product} />}
+      <Breadcrum product={product} />
+      <ProductDisplay product={product} />
       <DescriptionBox />
       <RelatedProducts />
     </div>
