@@ -18,6 +18,7 @@ const ProductDisplay = () => {
                     throw new Error("Network response was not ok");
                 }
                 const data = await response.json();
+                console.log("Fetched product data:", data); // Debug log
                 setProduct(data);
             } catch (error) {
                 console.error("Error fetching product:", error);
