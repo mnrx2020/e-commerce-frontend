@@ -1,29 +1,23 @@
-import React, { useEffect, useState, useContext } from 'react';
-import { useParams } from 'react-router-dom';
+import React, { useContext } from 'react';
 import "./ProductDisplay.css";
 import star_icon from "../Assets/star_icon.png";
 import star_dull_icon from "../Assets/star_dull_icon.png";
 import { ShopContext } from '../../Context/ShopContext';
 
-const ProductDisplay = () => {
+
+const ProductDisplay = ({ product }) => {
     const { addToCart } = useContext(ShopContext);
-    const { productId } = useParams();
-    const [product, setProduct] = useState(null);
 
-    useEffect(() => {
-        const fetchProduct = async () => {
-            const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/product/${productId}`);
-            const data = await response.json();
-            setProduct(data);
-        };
-        fetchProduct();
-    }, [productId]);
 
+    // Check if product is defined
     if (!product) {
-        return <div>Loading...</div>;
+        return null; // or render a placeholder or loading state
     }
 
+
+    // Set a default value for product rating if not provided
     const rating = product.rating || 0;
+
 
     return (
         <div className='productdisplay'>
@@ -31,27 +25,29 @@ const ProductDisplay = () => {
                 <div className='productdisplay-img-list'>
                     {product.image && (
                         <>
-                            <img src={product.image} alt={product.name} />
-                            <img src={product.image} alt={product.name} />
-                            <img src={product.image} alt={product.name} />
-                            <img src={product.image} alt={product.name} />
+                            <img src={product.image} alt="" />
+                            <img src={product.image} alt="" />
+                            <img src={product.image} alt="" />
+                            <img src={product.image} alt="" />
                         </>
                     )}
                 </div>
                 <div className='productdisplay-img'>
                     {product.image && (
-                        <img className='productdisplay-main-img' src={product.image} alt={product.name} />
+                        <img className='productdisplay-main-img' src={product.image} alt="" />
                     )}
                 </div>
             </div>
             <div className='productdisplay-right'>
                 <h1>{product.name}</h1>
                 <div className='productdisplay-right-stars'>
+                    {/* Render star icons based on product.rating */}
                     {[...Array(rating)].map((_, index) => (
-                        <img key={index} src={star_icon} alt="Star" />
+                        <img key={index} src={star_icon} alt="" />
                     ))}
+                    {/* Render dull stars for remaining */}
                     {[...Array(5 - rating)].map((_, index) => (
-                        <img key={index + rating} src={star_dull_icon} alt="Dull Star" />
+                        <img key={index + rating} src={star_dull_icon} alt="" />
                     ))}
                     <p>({product.rating_count || 0})</p>
                 </div>
@@ -69,7 +65,7 @@ const ProductDisplay = () => {
                         <div>M</div>
                         <div>L</div>
                         <div>XL</div>
-                        <div>XXL</div>
+                        <div>XXl</div>
                     </div>
                 </div>
                 <button onClick={() => { addToCart(product.id) }}>ADD TO CART</button>
@@ -79,5 +75,6 @@ const ProductDisplay = () => {
         </div>
     );
 }
+
 
 export default ProductDisplay;
