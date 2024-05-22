@@ -10,6 +10,7 @@ const Product = () => {
   const { productId } = useParams();
   const { all_product } = useContext(ShopContext);
   const [product, setProduct] = useState(null);
+  const [error, setError] = useState(null);
 
   useEffect(() => {
     const fetchProduct = async () => {
@@ -19,17 +20,31 @@ const Product = () => {
       if (!foundProduct) {
         try {
           const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/product/${productId}`);
-          foundProduct = await response.json();
-          console.log("Fetched product from backend:", foundProduct);
+          if (response.status === 404) {
+            setError("Product not found");
+            console.error("Product not found:", productId);
+          } else if (!response.ok) {
+            throw new Error("Network response was not ok");
+          } else {
+            foundProduct = await response.json();
+            console.log("Fetched product from backend:", foundProduct);
+            setProduct(foundProduct);
+          }
         } catch (error) {
           console.error("Error fetching product from backend:", error);
+          setError("Failed to fetch product");
         }
+      } else {
+        setProduct(foundProduct);
       }
-      setProduct(foundProduct);
     };
 
     fetchProduct();
   }, [productId, all_product]);
+
+  if (error) {
+    return <div>{error}</div>;
+  }
 
   if (!product) {
     return <div>Loading...</div>; // Display loading state while fetching the product
