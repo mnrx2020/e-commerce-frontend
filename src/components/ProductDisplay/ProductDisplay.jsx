@@ -18,7 +18,6 @@ const ProductDisplay = () => {
                     throw new Error("Network response was not ok");
                 }
                 const data = await response.json();
-                console.log("Fetched product data:", data); // Debug log
                 setProduct(data);
             } catch (error) {
                 console.error("Error fetching product:", error);
@@ -39,16 +38,16 @@ const ProductDisplay = () => {
                 <div className='productdisplay-img-list'>
                     {product.image && (
                         <>
-                            <img src={product.image} alt={product.name} />
-                            <img src={product.image} alt={product.name} />
-                            <img src={product.image} alt={product.name} />
-                            <img src={product.image} alt={product.name} />
+                            <img src={`${process.env.REACT_APP_BACKEND_URL}/images/${product.image}`} alt={product.name} />
+                            <img src={`${process.env.REACT_APP_BACKEND_URL}/images/${product.image}`} alt={product.name} />
+                            <img src={`${process.env.REACT_APP_BACKEND_URL}/images/${product.image}`} alt={product.name} />
+                            <img src={`${process.env.REACT_APP_BACKEND_URL}/images/${product.image}`} alt={product.name} />
                         </>
                     )}
                 </div>
                 <div className='productdisplay-img'>
                     {product.image && (
-                        <img className='productdisplay-main-img' src={product.image} alt={product.name} />
+                        <img className='productdisplay-main-img' src={`${process.env.REACT_APP_BACKEND_URL}/images/${product.image}`} alt={product.name} />
                     )}
                 </div>
             </div>
