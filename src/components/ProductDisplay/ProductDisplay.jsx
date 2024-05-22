@@ -7,17 +7,17 @@ import { ShopContext } from '../../Context/ShopContext';
 
 const ProductDisplay = () => {
     const { addToCart } = useContext(ShopContext);
-    const { id } = useParams();
+    const { productId } = useParams();
     const [product, setProduct] = useState(null);
 
     useEffect(() => {
         const fetchProduct = async () => {
-            const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/product/${id}`);
+            const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/product/${productId}`);
             const data = await response.json();
             setProduct(data);
         };
         fetchProduct();
-    }, [id]);
+    }, [productId]);
 
     if (!product) {
         return <div>Loading...</div>;
